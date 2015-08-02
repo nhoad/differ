@@ -11,8 +11,9 @@ def get_changed_lines(output):
     try:
         return _get_changed_lines(lines)
     except Exception as e:
-        # FIXME: return this to the vim plugin via stderr so it can be reported.
-        raise
+        sys.stderr.write('{}'.format(str(e)))
+        sys.stderr.flush()
+        return {}
 
 
 def _get_changed_lines(lines):

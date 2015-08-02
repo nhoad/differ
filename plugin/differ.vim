@@ -59,6 +59,8 @@ endfunction
 function s:JobHandler(job_id, data, event)
   if a:event == 'stdout'
     call s:DiffUpdate(a:data, self.buffer)
+  elseif a:event == 'stderr'
+    echoerr join(a:data, '\n')
   endif
 endfunction
 
