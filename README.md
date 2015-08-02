@@ -13,6 +13,9 @@ guessed, I'm speaking from experience.
 It also still has support for Vim, it'll just have Vim's problems (no job
 control support).
 
+It currently supports git and mercurial. Adding support for any other VCS is
+trivial, as long as it can produce a unified diff.
+
 # Using it
 
 Put this in your .vimrc:
