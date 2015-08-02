@@ -21,7 +21,12 @@ def _get_changed_lines(lines):
 
     changed_lines = {}
 
-    lines = lines[4:]
+    while lines:
+        if not start_of_chunk.search(lines[0]):
+            lines.pop(0)
+        else:
+            break
+
     while lines:
         orig_start, orig_count, new_start, new_count = start_of_chunk.search(lines.pop(0)).groups()
         orig_start = int(orig_start)
