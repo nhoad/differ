@@ -37,7 +37,7 @@ function Differ()
   if has('nvim')
     call jobstart(['annotate-differ', buffer], extend({'buffer': buffer}, s:callbacks))
   else
-    let diff = system(['annotate-differ', buffer])
+    let diff = system('annotate-differ ' . buffer)
     call s:DiffUpdate(split(diff, '\n'), buffer)
   endif
 endfunction
