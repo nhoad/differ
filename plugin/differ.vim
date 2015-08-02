@@ -35,9 +35,9 @@ function Differ()
   let s:previous_lines[buffer] = []
 
   if has('nvim')
-    call jobstart(['lineannotate.py', buffer], extend({'buffer': buffer}, s:callbacks))
+    call jobstart(['annotate-differ', buffer], extend({'buffer': buffer}, s:callbacks))
   else
-    let diff = system(['lineannotate.py', buffer])
+    let diff = system(['annotate-differ', buffer])
     call s:DiffUpdate(split(diff, '\n'), buffer)
   endif
 endfunction
