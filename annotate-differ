@@ -89,22 +89,18 @@ def under_git(path):
 
 
 def run_diff(path):
-    nonzero_means_empty = False
     if under_git(path):
         cmd = ['git', 'diff', '-U0', '--color=never', path]
     elif under_hg(path):
-        nonzero_means_empty = True
         cmd = ['hg', '--color=never', '--config', 'ui.verbose=false', 'diff', '-U0', path]
     else:
         return ''
 
     try:
-        out = subprocess.check_output(cmd)
+        out = subprocess.check_output(cmd, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError as e:
         return e.output.decode()
     else:
-        if nonzero_means_empty:
-            return ''
         return out.decode()
 
 
