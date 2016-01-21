@@ -32,7 +32,7 @@ def _get_changed_lines(lines):
         orig_start, orig_count, new_start, new_count = start_of_chunk.search(lines.pop(0)).groups()
         orig_start = int(orig_start)
         orig_count = int(orig_count or -1)
-        new_start = int(new_start)
+        new_start = max(int(new_start), 1)
         new_count = int(new_count or -1)
 
         del_count = 0
