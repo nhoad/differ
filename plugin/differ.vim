@@ -28,6 +28,9 @@ if ! exists('s:previous_lines')
   let s:previous_lines = {}
 endif
 
+" find annotate-differ relative to this file
+let s:annotate_differ = expand('<sfile>:h:h') . '/annotate-differ'
+
 function! Differ()
   let buffer = expand('%')
   let previous_lines = get(s:previous_lines, buffer, [])
@@ -37,9 +40,9 @@ function! Differ()
   let s:previous_lines[buffer] = []
 
   if has('nvim')
-    call jobstart(['annotate-differ', buffer], extend({'buffer': buffer}, s:callbacks))
+    call jobstart([s:annotate_differ, buffer], extend({'buffer': buffer}, s:callbacks))
   else
-    let diff = system('annotate-differ ' . buffer)
+    let diff = system(s:annotate_differ . ' ' . buffer)
     call s:DiffUpdate(split(diff, '\n'), buffer)
   endif
 endfunction
