@@ -24,9 +24,14 @@ highlight default link SignifySignAdd    DiffAdd
 highlight default link SignifySignChange DiffChange
 highlight default link SignifySignDelete DiffDelete
 
-let s:previous_lines = {}
+if ! exists('s:previous_lines')
+  let s:previous_lines = {}
+endif
 
-function Differ()
+" find annotate-differ relative to this file
+let s:annotate_differ = expand('<sfile>:h:h') . '/annotate-differ'
+
+function! Differ()
   let buffer = expand('%')
   let previous_lines = get(s:previous_lines, buffer, [])
   for i in previous_lines
@@ -35,14 +40,14 @@ function Differ()
   let s:previous_lines[buffer] = []
 
   if has('nvim')
-    call jobstart(['annotate-differ', buffer], extend({'buffer': buffer}, s:callbacks))
+    call jobstart([s:annotate_differ, buffer], extend({'buffer': buffer}, s:callbacks))
   else
-    let diff = system('annotate-differ ' . buffer)
+    let diff = system(s:annotate_differ . ' ' . buffer)
     call s:DiffUpdate(split(diff, '\n'), buffer)
   endif
 endfunction
 
-function s:DiffUpdate(lines, buffer)
+function! s:DiffUpdate(lines, buffer)
   for line in a:lines
     if strlen(line) > 0
       " call append(line('$'), line)
@@ -56,7 +61,7 @@ function s:DiffUpdate(lines, buffer)
   endfor
 endfunction
 
-function s:JobHandler(job_id, data, event)
+function! s:JobHandler(job_id, data, event)
   if a:event == 'stdout'
     call s:DiffUpdate(a:data, self.buffer)
   elseif a:event == 'stderr'

@@ -23,8 +23,4 @@ Put this in your .vimrc:
     autocmd! BufWritePost * call Differ()
     autocmd! BufReadPost * call Differ()
 
-And put `annotate-differ` in your $PATH somewhere, e.g. `~/bin/`. If anyone
-knows a better way for the vim script to call `annotate-differ`, let me know,
-because I have no idea.
-
 Or just call Differ() manually, e.g. `:call Differ()`.
