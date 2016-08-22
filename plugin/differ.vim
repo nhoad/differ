@@ -24,9 +24,11 @@ highlight default link SignifySignAdd    DiffAdd
 highlight default link SignifySignChange DiffChange
 highlight default link SignifySignDelete DiffDelete
 
-let s:previous_lines = {}
+if ! exists('s:previous_lines')
+  let s:previous_lines = {}
+endif
 
-function Differ()
+function! Differ()
   let buffer = expand('%')
   let previous_lines = get(s:previous_lines, buffer, [])
   for i in previous_lines
@@ -42,7 +44,7 @@ function Differ()
   endif
 endfunction
 
-function s:DiffUpdate(lines, buffer)
+function! s:DiffUpdate(lines, buffer)
   for line in a:lines
     if strlen(line) > 0
       " call append(line('$'), line)
@@ -56,7 +58,7 @@ function s:DiffUpdate(lines, buffer)
   endfor
 endfunction
 
-function s:JobHandler(job_id, data, event)
+function! s:JobHandler(job_id, data, event)
   if a:event == 'stdout'
     call s:DiffUpdate(a:data, self.buffer)
   elseif a:event == 'stderr'
