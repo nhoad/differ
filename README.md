@@ -1,3 +1,9 @@
+# This project is effectively abandoned
+
+It had a bunch of issues with state getting a bit messed up, and I can't really
+be bothered maintaining it. I don't use mercurial anymore, so I can use
+airblade/vim-gitgutter and move on.
+
 # differ
 
 Yet another gitgutter style plugin for Vim, but with Neovim support.
